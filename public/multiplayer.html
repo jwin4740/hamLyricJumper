@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>-->
+    <script src="./js/libraries/jQuerylib.js"></script>
+    <script src="./js/libraries/socket.io.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/chessboard-0.3.0.css">
+    <!--<link rel="stylesheet" href="./css/style.css">-->
+    <link rel="stylesheet" href="./css/multiplayer.css">
+    <!--<link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">-->
+    <!--<link href="https://fonts.googleapis.com/css?family=Graduate" rel="stylesheet">-->
+    <!--<link href="https://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet">-->
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+
+
+    <title> Minerva Multiplayer </title>
+</head>
+
+<body>
+    <div id='leftNavBar'>
+        <div class="navContainer">
+            <a class='headLink' href="/">
+                <div class='picDiv'>
+                    <p class="titleNav">
+                        MINERVA
+                    </p>
+                    <img class='leftPic' src='./img/minerva.png'>
+                    <p class="titleNav">
+                        CHESS
+                    </p>
+                </div>
+            </a>
+
+            <a class='navLink' href='/'>
+                <p class="linkLeft">
+                    <img class='navIcon' src='./img/minerva.png'> HOME
+                </p>
+            </a>
+            <a lass='navLink' href='/minervaengine'>
+                <p class="linkLeft">
+                    <img class='navIcon' src='./img/engine.png'> ENGINE
+                </p>
+            </a>
+            <a lass='navLink' href='/multiplayer'>
+                <p class="linkLeft">
+                    <img class='navIcon' src='./img/chessboard.jpg'> PLAY
+                </p>
+            </a>
+            <a lass='navLink' target='_blank' href='https://gameknot.com/chess-tactics.pl'>
+                <p class="linkLeft">
+                    <img class='navIcon' src='./img/book.png'> LEARNING
+                </p>
+            </a>
+            <button class='flashing' id='createGame'> Create Game </button>
+            <button id='startGame'> Start Game </button>
+            <div id='socialContainer'>
+                <a lass='navLink' target='_blank' href='https://github.com/jwin4740'>
+                    <p class="linkLeftBottom">
+                        <img class='navIcon' src='./img/github.png'> github
+                    </p>
+                </a>
+                <a lass='navLink' target='_blank' href='https://www.linkedin.com/in/james-winkle-4181794b/'>
+                    <p class="linkLeftBottom">
+                        <img class='navIcon' src='./img/linkedin.png'> linkedIn
+                    </p>
+                </a>
+                <a lass='navLink' target='_blank' href='https://jamesjwinkle.herokuapp.com/'>
+                    <p class="linkLeftBottom">
+                        <img class='navIcon' src='./img/heroku.png'> website
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <section class='totusTuus'>
+        <!--<h4 class='helloUser'> hello <span id='heyUser'> </span> </h4>-->
+        <main style='clear: both;' id="mainContainer">
+            <div class='playerInfo' id="playerInfoTop">
+                <p class='nameAndRating' id='topNameAndRating'>
+                    <img class='userIcon' src='./img/orangerook.png' alt='userIcon'> <span class='userName' id="playerTopName">player </span>                    (1543)
+                </p>
+                <div class='pieceDock' id='whiteCaptured'>
+                    <span id='whitePawn'></span> <span id='whiteOther'></span>
+                </div>
+            </div>
+            <div id="boardWrapper">
+                <div id='boardContainer'>
+                    <div id='board'>
+                    </div>
+                </div>
+            </div>
+            <div class='playerInfo' id="playerInfoBottom">
+                <p class='nameAndRating' id='bottomNameAndRating'>
+                    <img class='userIcon' src='./img/bluepawn.png' alt='userIcon'> <span class='userName' id="playerBottomName">player </span>                    (1332)
+                </p>
+                <div class='pieceDock' id='blackCaptured'>
+                    <span id='blackPawn'></span> <span id='blackOther'></span>
+                </div>
+            </div>
+        </main>
+
+
+
+        <div id='ad'>
+            <div id='adHam'><a target='_blank' href='http://www.hamiltonbroadway.com/'><span id='exitAd' class="glyphicon glyphicon-remove-circle"></span></a>
+                <h4 id='myShot'>Do not throw away your shot</h4>
+            </div>
+            <img class='hamAdTemp' src='./img/hamcrop.jpg'>
+        </div>
+
+        <div id="chatAndNotate">
+            <div id="panelNotate" class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Moves</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="panelMainNotate">
+                        <div id='gameHistory'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="panelChat" class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Chat</h3>
+                </div>
+                <div class="panel-body">
+                    <div class='panelMainChat'>
+                        <p class="welcomeChat"> Welcome to Minerva Chess <span id="userName"></span></p>
+                        <p class="welcomeChat" id="timeMoment"></p>
+                    </div>
+                    <div id="chatField">
+                        <input class="chatInput" id="sendChat" placeholder=" type message">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="confirmGameStart" class="modal fade text-center" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-lg fa-times-circle-o" aria-hidden="true"></i></button>
+                    <h4 class="modal-title"> Your opponent is waiting for you to start the game</h4>
+                </div>
+                <div class="modal-body">
+                    <button type="submit" id="confirmStartButton" data-dismiss="modal" class="btn btn-success green">START</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--confirmation modal-->
+
+
+    <div id="gameModal">
+        <div data-toggle="modal" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="exampleModalLabel">New Game Settings</h5>
+                    </div>
+                    <div class="modal-body">
+                        <span class="label label-default">Choose Side</span>
+                        <select name="side" id="sideColor">
+                                    <option id ="whiteSide" value="white">white</option>
+                                    <option id ="blackSide" value="black">black</option>
+                            </select>
+                        <br>
+                        <br>
+                        <span class="label label-default">Time Settings</span>
+                        <select name="time" id="timeSelection">
+                                 <option value="60min5delay">untimed</option>
+                                    <option value="60">60min </option>
+                                    <option value="30">30min</option>
+                                    <option value="15">15min</option>
+                                    <option value="5">5min</option>
+                                    <option value="1">1min</option>
+                                       
+                                </select>
+                        <br><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="setSides" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./js/userlogin.js"></script>
+    <script src="./js/libraries/chess.js"></script>
+    <script src="./js/libraries/chessboard.js"></script>
+    <script src="./js/humangame.js"></script>
+    <script>
+        $('#startGame').hide();
+        $('#createGame').on('click', function () {
+            $('#myModal').modal('show');
+        });
+    </script>
+</body>
+
+</html>

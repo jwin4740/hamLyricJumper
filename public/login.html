@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!--<script src="./js/jQueryLib.js"></script>-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <link rel="stylesheet" href="./css/login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <title> Minerva Home</title>
+</head>
+
+<body>
+
+
+
+
+     <div id='leftNavBar'>
+        <div class="navContainer">
+            <a class='headLink' href="/">
+                <div class='picDiv'>
+                    <p class="titleNav">
+                        MINERVA
+                    </p>
+                    <img class='leftPic' src='./img/minerva.png'>
+                    <p class="titleNav">
+                        CHESS
+                    </p>
+                </div>
+            </a>
+            <a class='navLink' href='/'>
+                <p class="linkLeft">
+                    <img class='navIcon' src='./img/minerva.png'> HOME
+                </p>
+            </a>
+            <a lass='navLink' href='/minervaengine'>
+                <p class="linkLeft">
+                    <img class='navIcon' src='./img/engine.png'> ENGINE
+                </p>
+            </a>
+            <a lass='navLink' href='/multiplayer'>
+                <p class="linkLeft">
+                    <img class='navIcon' src='./img/chessboard.jpg'> PLAY
+                </p>
+            </a>
+            <a lass='navLink' target='_blank' href='https://gameknot.com/chess-tactics.pl'>
+                <p class="linkLeft">
+                    <img class='navIcon' src='./img/book.png'> LEARNING
+                </p>
+            </a>
+ 
+            <div id='socialContainer'>
+                <a lass='navLink' target='_blank' href='https://github.com/jwin4740'>
+                    <p class="linkLeftBottom">
+                        <img class='navIcon' src='./img/github.png'> github
+                    </p>
+                </a>
+                <a lass='navLink' target='_blank' href='https://www.linkedin.com/in/james-winkle-4181794b/'>
+                    <p class="linkLeftBottom">
+                        <img class='navIcon' src='./img/linkedin.png'> linkedIn
+                    </p>
+                </a>
+                <a lass='navLink' target='_blank' href='https://jamesjwinkle.herokuapp.com/'>
+                    <p class="linkLeftBottom">
+                        <img class='navIcon' src='./img/heroku.png'> website
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="loginModal" class="modal fade text-center" role="dialog">
+        <div class="modal-dialog">
+            <!-- Login Modal content-->
+            <div class="modal-content" id='loginModalStyle'>
+                <div class="modal-header" id='loginHeading'>
+                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-lg fa-times-circle-o" aria-hidden="true"></i></button>
+                    <h4 class="modal-title">Returning User Login</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm" method="post" action="/login">
+                        <div class="input-group">
+                            <span class="input-group-addon">Email</span>
+                            <input id="email" type="text" class="form-control" name="logEmail">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">Password</span>
+                            <input id="password" type="password" class="form-control" name="logPassword">
+                        </div>
+                        <div class="modal-footer">
+                            <!--<button type="submit" id="logButton" class="btn btn-success green">Login</button>-->
+                              <button type='submit' class='coolButton' id="signUp">Login</button>
+                              <br>
+                            <a href="/register" id="createAccount"> Don't have an account? Sign Up</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script type="text/javascript">
+    $('#loginModal').modal('show');
+        // ---------------------------------------------
+        $("#logButton").on("click", function () {
+            var userVal = $("#email").val();
+            var passVal = $("#password").val();
+            var username = {
+                username: userVal,
+                password: passVal
+            };
+            console.log("clicked");
+            $.post("/login", username);
+        });
+    </script>
+</body>
+
+</html>
