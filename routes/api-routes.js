@@ -15,23 +15,11 @@ var passhash = require('password-hash-and-salt');
 var security;
 var userArray = [];
 var session;
+const Lyricist = require('lyricist/node6');
+const accessToken = "chTN2RA_5ChmZXkMZIKN8z4WnIoS0x7Q9FP3czbCXPGdTE9EMbLQgKJSnvsqm0Pn"
 
 
 
-var gameObject = {
-  gameCreated: false,
-  gameID: "",
-  gameStarted: false,
-  whitePlayerData: {
-    whitePlayerID: "x",
-    whitePlayerRating: "x"
-  },
-  blackPlayerData: {
-    blackPlayerID: "x",
-    blackPlayerRating: "x"
-  }
-
-};
 
 
 
@@ -41,25 +29,7 @@ var gameObject = {
 // Routes
 // =============================================================
 module.exports = function (app) {
-  // function GameConstruct(startGame, playerOne, playerTwo, whiteMove, blackMove) {
-  //   this.startGame = startGame;
-  //   this.playerOne = playerOne;
-  //   this.playerTwo = playerTwo;
-  //   this.whiteMove = whiteMove;
-  //   this.blackMove = blackMove;
-  // }
 
-
-
-  //  db.gamesetup.destroy({ 
-  //   where: {
-  //     starter: 'active'
-  //   },
-  //   truncate: true 
-  // });
-
-
-  // posts username/email object to the route
   app.post("/api/users", function (req, res) {
     db.User.findAll({})
       .then(function (data) {
@@ -75,10 +45,32 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/api/users", function (req, res) {
-    res.json(userArray);
+  app.get("/api/tracklist", function (req, res) {
+    const lyricist = new Lyricist(accessToken);
+    lyricist.album(131575, {
+      fetchTracklist: true
+    }).then(function (data) {
+      console.log("im innnnnnnn");
+      res.json(data);
+    });
+
 
   });
+  app.get('/lyric/:id?', function (req, res, next) {
+    var id = req.params.id;
+    if (id) {
+      const lyricist = new Lyricist(accessToken);
+      lyricist.song(id, {
+        fetchLyrics: true
+      }).then(function (data) {
+        console.log(data.lyrics);
+        res.json(data);
+      });
+    } else {
+      next();
+    }
+  });
+
   //REGISTER NEW USER
   app.post("/users", function (req, res, next) {
     //Validation - checks if form is filled out properly
