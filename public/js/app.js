@@ -25,10 +25,11 @@ $.get("/api/tracklist", function (data) {
             method: "GET"
         }).done(function (data) {
 
-            lyricArray.push(data.lyrics);
-            console.log(lyricArray);
+            var preSplit = data.lyrics;
+
+            var postSplit = preSplit.split(" ");
+            console.log(postSplit);
 
         });
     }
-
 });
