@@ -4,6 +4,7 @@ var path = require("path");
 var app = express();
 var server = require('http').Server(app);
 var port = process.env.PORT || 8080;
+var mysql = require("mysql");
 
 const Lyricist = require('lyricist/node6');
 const accessToken = "chTN2RA_5ChmZXkMZIKN8z4WnIoS0x7Q9FP3czbCXPGdTE9EMbLQgKJSnvsqm0Pn"
@@ -16,7 +17,6 @@ const accessToken = "chTN2RA_5ChmZXkMZIKN8z4WnIoS0x7Q9FP3czbCXPGdTE9EMbLQgKJSnvs
 
 // hamilton album id is 131575
 
-var db = require("./models");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
@@ -31,10 +31,11 @@ require("./routes/api-routes.js")(app);
 require("./routes/html-routes.js")(app);
 
 
-db.sequelize.sync({
-    force: false
-}).then(function () {
-    server.listen(port, function () {
-        console.log('server listening on port: ' + port);
-    });
+
+
+
+
+
+server.listen(port, function () {
+    console.log('server listening on port: ' + port);
 });
